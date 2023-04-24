@@ -52,17 +52,7 @@ public static class ModMenu
                     MenuRef.Update();
                 },
                 () => HKVocals._globalSettings.dnDialogue),
-            
-            new HorizontalOption("Automatic Boss Shouts",
-                "Should some bosses automatically do shouts?",
-                new []{"On", "Off"},
-                i => HKVocals._globalSettings.automaticBossDialogue = i == 0,
-                () => HKVocals._globalSettings.automaticBossDialogue ? 0 : 1,
-                Id: "Automatic Boss Dialogue")
-            {
-                isVisible = !HKVocals._globalSettings.dnDialogue
-            },
-            
+
             Blueprints.HorizontalBoolOption("Dampen Audio",
                 "Should audio be dampened when audio is played?",
                 i =>
@@ -86,8 +76,8 @@ public static class ModMenu
     public static void GoToModMenu()
     {
         // we cant garuntee our modmenu has been created yet so our MenuRef.menuScreen might be null. hence we manually find modist menu and use that
-        UIManager.instance.UIGoToDynamicMenu(ModMenu.MenuRef.menuScreen != null 
-            ? ModMenu.MenuRef.menuScreen 
-            : ModMenu.MenuRef.GetMenuScreen(UIManager.instance.UICanvas.Find("ModListMenu").GetComponent<MenuScreen>()));
+        UIManager.instance.UIGoToDynamicMenu(MenuRef.menuScreen != null 
+            ? MenuRef.menuScreen 
+            : MenuRef.GetMenuScreen(UIManager.instance.UICanvas.Find("ModListMenu").GetComponent<MenuScreen>()));
     }
 }
