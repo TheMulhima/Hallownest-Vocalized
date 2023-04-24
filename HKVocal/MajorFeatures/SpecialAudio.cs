@@ -46,7 +46,7 @@ public static class SpecialAudio
         CoroutineHelper.WaitForSecondsBeforeInvoke(1.164f, () =>
         {
             MixerLoader.SetSnapshot(MiscUtils.GetCurrentSceneName());
-            AudioPlayer.TryPlayAudioFor("RANDOM_POEM_STUFF_0");
+            AudioPlayer.TryPlayAudioFor("RANDOM_POEM_STUFF");
         });
     }
     
@@ -72,7 +72,7 @@ public static class SpecialAudio
         foreach (string auto in AutomaticKeys) {
             if (key.StartsWith(auto)) {
                 MixerLoader.SetSnapshot(key.Contains("ABYSS") ? Snapshots.Cave : Snapshots.Dream);
-                AudioPlayer.TryPlayAudioFor($"{key}_0");
+                AudioPlayer.TryPlayAudioFor(key);
                 return orig;
             }
         }
