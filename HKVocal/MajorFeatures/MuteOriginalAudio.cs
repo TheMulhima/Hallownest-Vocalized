@@ -24,10 +24,6 @@ public static class MuteOriginalAudio
 
         //remove audio special s=cases 
         
-        //make iselda not play her shop open audio the first time and subsequently play it at lower volume
-        FSMEditData.AddGameObjectFsmEdit("Iselda", "Conversation Control", DontSetMetIseldaPDBool);
-        Hooks.HookStateEntered(new ("Iselda", "Shop Anim", "Shop Start"), ChangeIseldaShopAudio);
-        
         //remove the audio mask masker loops on but also 1) replay it by rerouting the fsm and 2) make sure its replayed by manually calling play on audiosource
         Hooks.HookStateEntered(new ("Maskmaker NPC", "Conversation Control", "Mask Choice"), RemoveMaskMakerAudioOnSpeak);
         Hooks.HookStateEntered(new ("Maskmaker NPC", "Conversation Control", "Play Audio"), MakeSureMaskMakerAudioIsReplayed);
@@ -84,29 +80,7 @@ public static class MuteOriginalAudio
     
 
     #region Remove Audio Special Cases
-    private static void DontSetMetIseldaPDBool(PlayMakerFSM fsm)
-    {
-        //disable the action that sets the pdBool cuz we dont want to play audio the first time
-        fsm.DisableFsmAction("Meet", 2);
-    }
-    private static void ChangeIseldaShopAudio(PlayMakerFSM fsm)
-    {
-        //lower the audio
-        var iseldaOpenAudio = fsm.GetFsmAction<AudioPlayerOneShotSingle>("Shop Start", 1);
-        iseldaOpenAudio.volume = 0.4f;
-        
-        //only play the audio every time after the first. we need to wait a bit to set the pd bool cuz this fsm runs first
-        if (!PlayerDataAccess.metIselda)
-        {
-            iseldaOpenAudio.Enabled = false;
-            CoroutineHelper.WaitForSecondsBeforeInvoke(2f, () => PlayerDataAccess.metIselda = true);
-        }
-        else
-        {
-            iseldaOpenAudio.Enabled = true;
-        }
-    }
-    
+
     private static void ReplayMaskMakerAudioOnFinish(PlayMakerFSM fsm)
     {
         //we need restart audio after make masked dialogue 

@@ -1,6 +1,4 @@
-﻿using SFCore.Utils;
-using MonoMod.RuntimeDetour;
-namespace HKVocals.MajorFeatures;
+﻿namespace HKVocals.MajorFeatures;
 public class UITextAudio
 {
     private static bool HunterNotesUnlocked = true;
@@ -17,8 +15,6 @@ public class UITextAudio
         FSMEditData.AddGameObjectFsmEdit ("Item List", "Item List Control", PlayShopText );
         FSMEditData.AddGameObjectFsmEdit ("Shop Menu", "shop_control", ShopMenuOpenClose );
         FSMEditData.AddGameObjectFsmEdit ("Inventory", "Inventory Control", InventoryOpenClose );
-        //FSMEditData.AddGameObjectFsmEdit("Enemy List", "Item List Control Custom", PlayEquipmentText);
-        new Hook(typeof(SFCore.ItemHelper).GetMethod("CreateEquipmentPane", BindingFlags.Static | BindingFlags.NonPublic), PlayEquipmentText);
     }
     
     public static void PlayCharmText(PlayMakerFSM fsm)
@@ -47,14 +43,6 @@ public class UITextAudio
                 fsm.PlayUIText("Item Desc Convo", UIAudioType.Other);
             }
         });
-    }
-
-    //public static void PlayEquipmentText(PlayMakerFSM fsm)
-    public static void PlayEquipmentText(Action<GameObject> orig, GameObject newPaneGo)
-    {
-        orig(newPaneGo);
-        PlayMakerFSM fsm = newPaneGo.FindGameObjectInChildren("Enemy List").LocateMyFSM("Item List Control Custom");
-        fsm.AddFsmMethod("Get Details", () => fsm.PlayUIText("Item Notes Convo", UIAudioType.Other));
     }
 
 

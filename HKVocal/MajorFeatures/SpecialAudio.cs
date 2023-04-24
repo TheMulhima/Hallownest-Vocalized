@@ -15,11 +15,11 @@ public static class SpecialAudio
         OnChainSequence.WithOrig.Update += WaitForAudioBeforeNextCutscene;
         
         //elderbugs intro audio doesnt transition well so we add special audio for that
-        FSMEditData.AddGameObjectFsmEdit("Elderbug", "Conversation Control", MakeElderbugPlaySpecialAudio);
         FSMEditData.AddGameObjectFsmEdit("Shiny Item RoyalCharm", "Shiny Control", ChangeNameOfClashingKey);
         FSMEditData.AddGameObjectFsmEdit("Dreamer Plaque Inspect", "Conversation Control", PlayDreamerPlaqueDialogue);
         FSMEditData.AddGameObjectFsmEdit("Fountain Inspect", "Conversation Control", PlayTHKPlaqueDialogue);
         ModHooks.LanguageGetHook += AddSpecialAudioKeys;
+        ModHooks.LanguageGetHook += PlayAutomaticDialogues;
     }
 
     private static void LockSkippingMonomonIntro(On.AnimatorSequence.orig_Skip orig, AnimatorSequence self)
@@ -53,11 +53,7 @@ public static class SpecialAudio
     private static string AddSpecialAudioKeys(string key, string sheettitle, string orig)
     {
         // makes sure text displays correctly
-        if (key == "ELDERBUG_INTRO_MAIN_ALT" && sheettitle == "Elderbug")
-        {
-            orig = Language.Language.Get("ELDERBUG_INTRO_MAIN", sheettitle);
-        }
-        else if (key == "KING_SOUL_PICKUP_KING_FINAL_WORDS" && sheettitle == "Minor NPC")
+        if (key == "KING_SOUL_PICKUP_KING_FINAL_WORDS" && sheettitle == "Minor NPC")
         {
             orig = Language.Language.Get("KING_FINAL_WORDS", sheettitle);
         }
@@ -65,25 +61,25 @@ public static class SpecialAudio
         return orig;
     }
     
-    public static void MakeElderbugPlaySpecialAudio(PlayMakerFSM fsm)
+    private static string[] AutomaticKeys = new string[] 
     {
-        //the idea is to add a new state which plays the alt audio and we change the transitions of the intros that dont work well to the alt audio playing state
-        var introMain = fsm.GetFsmState("Intro Main");
-        var alt = fsm.CopyFsmState(introMain.Name, introMain.Name + " Alt");
-
-        alt.Actions = Array.Empty<FsmStateAction>();
-        
-        alt.AddFsmMethod(() =>
-        {
-            PlayerDataAccess.metElderbug = true;
-            var dialogueText = introMain.GetFsmAction<CallMethodProper>(1).gameObject.GameObject.Value;
-            dialogueText.GetComponent<DialogueBox>().StartConversation("ELDERBUG_INTRO_MAIN_ALT", "Elderbug");
-        });
-        
-        fsm.GetFsmState("Intro 2").ChangeFsmTransition("CONVO_FINISH", alt.Name);
-        fsm.GetFsmState("Intro 3").ChangeFsmTransition("CONVO_FINISH", alt.Name);
-    }
+        "KING_ABYSS_",
+        "GRIMM_REMINDER"
+    };
     
+    private static string PlayAutomaticDialogues(string key, string sheettitle, string orig)
+    {
+        foreach (string auto in AutomaticKeys) {
+            if (key.StartsWith(auto)) {
+                MixerLoader.SetSnapshot(key.Contains("ABYSS") ? Snapshots.Cave : Snapshots.Dream);
+                AudioPlayer.TryPlayAudioFor($"{key}_0");
+                return orig;
+            }
+        }
+
+        return orig;
+    }
+
     public static void ChangeNameOfClashingKey(PlayMakerFSM fsm)
     {
         var msg = fsm.GetFsmState("King Msg");
