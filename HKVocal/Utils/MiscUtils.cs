@@ -4,14 +4,6 @@ namespace HKVocals;
 
 public static class MiscUtils
 {
-    public static int[] GetRange(int start, int end)
-    {
-        int[] array = new int[end - start + 1];
-        for (int i = 0; i < array.Length; i++)
-            array[i] = start + i;
-        return array;
-    }
-
     public static int GetIndexOf<T>(this T[] arr, Func<T, bool> predicate)
     {
         for (int i = 0; i < arr.Length; i++)
@@ -94,16 +86,5 @@ public static class MiscUtils
         return value <= 9
             ? RefVanillaMenu.MusicVolumeSlider.GetComponent<MenuAudioSlider>().Reflect().GetVolumeLevel(value)
             : 0.0f;
-    }
-
-    public static string GetFileHash(string file)
-    {
-        var sha1 = SHA1.Create();
-        var stream = File.OpenRead(file);
-        var hashBytes = sha1.ComputeHash(stream);
-        var hash = BitConverter.ToString(hashBytes).Replace("-", "").ToLowerInvariant();
-        stream.Close();
-        sha1.Clear();
-        return $"{hash.Substring(0, 6)}";
     }
 }

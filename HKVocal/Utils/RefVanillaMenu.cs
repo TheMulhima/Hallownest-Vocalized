@@ -14,11 +14,6 @@ public static class RefVanillaMenu
     private static GameObject _musicVolumeSlider;
     private static AudioMixer _masterMixer;
     private static GameObject _defaultAudioSettingsButton;
-    
-    private static MenuScreen _extrasMenuScreen;
-    private static GameObject _extrasMenuScreenContent;
-    private static GameObject _creditButtonHolder;
-    private static List<GameObject> _packDetailButtons;
 
     #region AudioMenu
     public static MenuScreen AudioMenuScreen
@@ -95,78 +90,6 @@ public static class RefVanillaMenu
             }
 
             return _defaultAudioSettingsButton;
-        }
-    }
-    
-    #endregion
-
-    #region ExtrasMenu
-
-    public static MenuScreen ExtrasMenuScreen
-    {
-        get
-        {
-            if (_extrasMenuScreen == null)
-            {
-
-                _extrasMenuScreen = UIManager.instance.UICanvas.Find("ExtrasMenuScreen").GetComponent<MenuScreen>();
-            }
-
-            return _extrasMenuScreen;
-        }
-    } 
-    public static GameObject ExtrasMenuScreenContent
-    {
-        get
-        {
-            if (_extrasMenuScreenContent == null)
-            {
-
-                _extrasMenuScreenContent = ExtrasMenuScreen.Find("Content");
-            }
-
-            return _extrasMenuScreenContent;
-        }
-    } 
-    
-    
-    public static GameObject CreditButtonHolder
-    {
-        get
-        {
-            if (_creditButtonHolder == null)
-            {
-
-                _creditButtonHolder = ExtrasMenuScreenContent.Find("Credits");
-            }
-
-            return _creditButtonHolder;
-        }
-    }
-
-    public static List<GameObject> PackDetailButtons
-    {
-        get
-        {
-            _packDetailButtons ??= new List<GameObject>();
-            
-            _packDetailButtons.RemoveNullValues();
-
-            if (_packDetailButtons.Count < 4)
-            {
-                _packDetailButtons.Clear();
-
-                _packDetailButtons = new List<GameObject>()
-                {
-                    ExtrasMenuScreenContent.Find("PackDetails_1"),
-                    ExtrasMenuScreenContent.Find("PackDetails_2"),
-                    ExtrasMenuScreenContent.Find("PackDetails_Lifeblood"), //why
-                    ExtrasMenuScreenContent.Find("PackDetails_3"),
-
-                };
-            }
-
-            return _packDetailButtons;
         }
     }
     

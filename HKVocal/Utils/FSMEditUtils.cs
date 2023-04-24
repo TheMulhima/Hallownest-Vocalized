@@ -4,14 +4,6 @@ namespace HKVocals;
 
 public static class FSMEditUtils
 {
-    public static void CreateDreamDialogue(string convName, string sheetName)
-    {
-        PlayMakerFSM fsm = FsmVariables.GlobalVariables.GetFsmGameObject("Enemy Dream Msg").Value.LocateMyFSM("Display");
-        fsm.Fsm.GetFsmString("Convo Title").Value = convName;
-        fsm.Fsm.GetFsmString("Sheet").Value = sheetName;
-        fsm.SendEvent("DISPLAY DREAM MSG");
-    }
-
     public static void PlayUIText(this PlayMakerFSM fsm, string audiokey, UIAudioType audioType)
     {
         //when the UI updates and new text has to be played, no other text can be selected so it makes sense to stop all audio
@@ -72,17 +64,6 @@ public static class FSMEditUtils
         state.Actions[index].Enabled = false;
     }
 
-    public static void DisableFsmActionInRange(this FsmState state, params int[] indexes)
-    {
-        for (int i = 0; i < state.Actions.Length; i++)
-        {
-            if (indexes.Contains(i))
-            {
-                state.Actions[i].Enabled = false;
-            }
-        }
-    }
-
     public static void DisableFsmActionsThatAre(this FsmState state, Func<FsmStateAction, bool> predicate)
     {
         if (state.Actions.Any(predicate))
@@ -90,17 +71,6 @@ public static class FSMEditUtils
             foreach (var action in state.Actions.Where(predicate))
             {
                 action.Enabled = false;
-            }
-        }
-    }
-    
-    public static void EnableActionsThatAre(this FsmState state, Func<FsmStateAction, bool> predicate)
-    {
-        if (state.Actions.Any(predicate))
-        {
-            foreach (var action in state.Actions.Where(predicate))
-            {
-                action.Enabled = true;
             }
         }
     }
