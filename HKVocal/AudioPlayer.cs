@@ -3,6 +3,7 @@ public static class AudioPlayer
 {
     private static AudioClip GetAudioClip(string text)
     {
+        Modding.Logger.Log(text);
         //TODO: Get the audio clip here
         
         return null;
