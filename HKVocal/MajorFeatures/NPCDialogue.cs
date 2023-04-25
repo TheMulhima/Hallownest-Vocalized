@@ -8,6 +8,7 @@ namespace HKVocals.MajorFeatures;
 public static class NPCDialogue
 {
     public static bool DidPlayAudioOnDialogueBox;
+    public static string SheetName;
 
     public delegate void OnPlayNPCDialogueHandler();
 
@@ -16,6 +17,8 @@ public static class NPCDialogue
     public static void Hook()
     {
         OnDialogueBox.AfterOrig.ShowPage += PlayAudioForNPCDialogue;
+        // this is a singleton class so it should work
+        OnDialogueBox.AfterOrig.SetConversation += (args) => SheetName = args.sheetName;
         OnDialogueBox.BeforeOrig.HideText += _ => AudioPlayer.StopPlaying();
     }
 
@@ -49,9 +52,9 @@ public static class NPCDialogue
         //convos start at _0 but page numbers start from 1
         int convoNumber = args.self.currentPage - 1;
         string convo = args.self.currentConversation;
-        
+
         //this controls scroll lock and autoscroll
-        DidPlayAudioOnDialogueBox = AudioPlayer.TryPlayAudioFor(convo, convoNumber);
+        DidPlayAudioOnDialogueBox = AudioPlayer.TryPlayAudioFor(convo,SheetName ,convoNumber);
 
         if (DidPlayAudioOnDialogueBox)
         {

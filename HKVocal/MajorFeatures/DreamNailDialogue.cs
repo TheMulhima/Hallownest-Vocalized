@@ -18,8 +18,6 @@ public static class DreamNailDialogue
     }
 
     private static string PlayDreamNailDialogue(string key, string sheetTitle, string orig) {
-
-        HKVocals.instance.Log($"Language get attempted with key {key}");
         
         // Make sure this is dreamnail text or ABD text or dont play audio if the dn dialogue toggle is off
         if (lastDreamnailedEnemy == null || !HKVocals._globalSettings.dnDialogue) return orig;
@@ -29,7 +27,7 @@ public static class DreamNailDialogue
 
         MixerLoader.SetSnapshot(Snapshots.Dream);
 
-        bool didPlay = AudioPlayer.TryPlayAudioFor(key);
+        bool didPlay = AudioPlayer.TryPlayAudioFor(key, sheetTitle);
 
         if (didPlay) {
             OnPlayDreamDialogue?.Invoke();

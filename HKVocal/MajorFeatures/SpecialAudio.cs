@@ -46,7 +46,7 @@ public static class SpecialAudio
         CoroutineHelper.WaitForSecondsBeforeInvoke(1.164f, () =>
         {
             MixerLoader.SetSnapshot(MiscUtils.GetCurrentSceneName());
-            AudioPlayer.TryPlayAudioFor("RANDOM_POEM_STUFF");
+            AudioPlayer.TryPlayAudioFor("RANDOM_POEM_STUFF", "Lore Tablets");
         });
     }
     
@@ -72,7 +72,7 @@ public static class SpecialAudio
         foreach (string auto in AutomaticKeys) {
             if (key.StartsWith(auto)) {
                 MixerLoader.SetSnapshot(key.Contains("ABYSS") ? Snapshots.Cave : Snapshots.Dream);
-                AudioPlayer.TryPlayAudioFor(key);
+                AudioPlayer.TryPlayAudioFor(key, sheettitle);
                 return orig;
             }
         }
@@ -92,7 +92,7 @@ public static class SpecialAudio
         {
             for (int i = 1; i < 6; i++)
             {
-                AudioPlayer.TryPlayAudioFor("DREAMERS_INSPECT_RG" + i);
+                AudioPlayer.TryPlayAudioFor("DREAMERS_INSPECT_RG" + i, "Dreamers");
                 yield return new WaitWhile(() => AudioPlayer.IsPlaying());
             }
         }
@@ -104,13 +104,13 @@ public static class SpecialAudio
         }
         fsm.InsertCustomAction("Fade Up", () => dreamerCo = fsm.StartCoroutine(DreamerAudio()), 0);
         fsm.InsertCustomAction("Msg Down", Stop, 0);
-        fsm.AddCustomAction("Update Map?", () => AudioPlayer.TryPlayAudioFor("DREAMERS_INSPECT_RG6"));
+        fsm.AddCustomAction("Update Map?", () => AudioPlayer.TryPlayAudioFor("DREAMERS_INSPECT_RG6", "Dreamers"));
     }
 
     public static void PlayTHKPlaqueDialogue(PlayMakerFSM fsm)
     {
-        fsm.InsertCustomAction("Stop", () => AudioPlayer.TryPlayAudioFor("RUINS_FOUNTAIN"), 0);
+        fsm.InsertCustomAction("Stop", () => AudioPlayer.TryPlayAudioFor("RUINS_FOUNTAIN", "Lore Tablets"), 0);
         fsm.InsertCustomAction("Fade Down", () => AudioPlayer.StopPlaying(), 0);
-        fsm.AddCustomAction("Update Map?", () => AudioPlayer.TryPlayAudioFor("PROMPT_MAP_BLACKEGG"));
+        fsm.AddCustomAction("Update Map?", () => AudioPlayer.TryPlayAudioFor("PROMPT_MAP_BLACKEGG", "Prompts"));
     }
 }

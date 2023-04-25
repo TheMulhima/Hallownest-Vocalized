@@ -19,12 +19,12 @@ public class UITextAudio
     
     public static void PlayCharmText(PlayMakerFSM fsm)
     {
-        fsm.AddFsmMethod("Change Text", () => { fsm.PlayUIText("Convo Desc", UIAudioType.Other); });
+        fsm.AddFsmMethod("Change Text", () => { fsm.PlayUIText("Convo Desc", "UI",  UIAudioType.Other); });
     }
 
     public static void PlayInventoryText(PlayMakerFSM fsm)
     {
-        fsm.AddFsmMethod("Change Text", () => { fsm.PlayUIText("Convo Desc", UIAudioType.Other); });
+        fsm.AddFsmMethod("Change Text", () => { fsm.PlayUIText("Convo Desc", "UI", UIAudioType.Other); });
     }
 
     public static void PlayJournalText(PlayMakerFSM fsm)
@@ -36,11 +36,11 @@ public class UITextAudio
         {
             if (HunterNotesUnlocked == true)
             {
-                fsm.PlayUIText("Item Notes Convo", UIAudioType.Other);
+                fsm.PlayUIText("Item Notes Convo", "Journal", UIAudioType.Other);
             }
             else if (HunterNotesUnlocked == false)
             {
-                fsm.PlayUIText("Item Desc Convo", UIAudioType.Other);
+                fsm.PlayUIText("Item Desc Convo", "Journal", UIAudioType.Other);
             }
         });
     }
@@ -62,8 +62,8 @@ public class UITextAudio
 
     public static void PlayShopText(PlayMakerFSM fsm)
     {
-        fsm.AddFsmMethod("Get Details Init", () => { fsm.PlayUIText("Item Desc Convo", UIAudioType.Shop); });
-        fsm.AddFsmMethod("Get Details", () => { fsm.PlayUIText("Item Desc Convo", UIAudioType.Shop); });
+        fsm.AddFsmMethod("Get Details Init", () => { fsm.PlayUIText("Item Desc Convo", "UI", UIAudioType.Shop); });
+        fsm.AddFsmMethod("Get Details", () => { fsm.PlayUIText("Item Desc Convo", "UI", UIAudioType.Shop); });
     }
 }
 

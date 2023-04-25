@@ -10,21 +10,21 @@ public static class AudioPlayer
     }
     
     
-    public static bool TryPlayAudioFor(string convName)
+    public static bool TryPlayAudioFor(string convName, string sheetName)
     {
         HKVocals.instance.LogDebug($"Trying to play audio for {convName}");
 
-        string text = Language.Language.Get(convName);
+        string text = Language.Language.Get(convName, sheetName);
         var clip = GetAudioClip(text);
         PlayAudio(clip);
         return true;
     }
     
-    public static bool TryPlayAudioFor(string convName, int convoNumber)
+    public static bool TryPlayAudioFor(string convName, string sheetName, int convoNumber)
     {
-        HKVocals.instance.LogDebug($"Trying to play audio for {convName}");
+        HKVocals.instance.LogDebug($"Trying to play audio for {convName} {sheetName} {convoNumber}");
 
-        string fullText = Language.Language.Get(convName);
+        string fullText = Language.Language.Get(convName, sheetName);
         string textToPlay = fullText.Split(new[] { "<page>" }, StringSplitOptions.None)[convoNumber];
         var clip = GetAudioClip(textToPlay);
         PlayAudio(clip);

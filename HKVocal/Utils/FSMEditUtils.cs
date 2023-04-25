@@ -4,7 +4,7 @@ namespace HKVocals;
 
 public static class FSMEditUtils
 {
-    public static void PlayUIText(this PlayMakerFSM fsm, string audiokey, UIAudioType audioType)
+    public static void PlayUIText(this PlayMakerFSM fsm, string audiokey, string sheetName ,UIAudioType audioType)
     {
         //when the UI updates and new text has to be played, no other text can be selected so it makes sense to stop all audio
         AudioPlayer.StopPlaying();
@@ -46,7 +46,7 @@ public static class FSMEditUtils
                     MixerLoader.SetSnapshot(Snapshots.Room); //we want room effect on ui audio that's not in the shop
                 }
             }
-            AudioPlayer.TryPlayAudioFor(fsm.FsmVariables.GetFsmString(audiokey).Value);
+            AudioPlayer.TryPlayAudioFor(fsm.FsmVariables.GetFsmString(audiokey).Value, sheetName);
         }
     }
     
